@@ -5,7 +5,7 @@ pipeline {
         stage('Move File') {
             steps {
                 script {
-                    sh "mv /home/ubuntu/demo.txt /home/ubuntu/ec2/"
+                    echo "hello world"
                 }
             }
         }
