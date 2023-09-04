@@ -4,11 +4,21 @@ pipeline {
     stages {
         stage('Connect to SSH Server') {
             steps {
-                node {
-                    // Define and use the sshagent step here
-                    sshagent(credentials: ['15.206.145.189']) {
-                        // Use the ssh step to run SSH commands on the remote server
-                        ssh user: 'ubuntu', remote: '15.206.145.189', command: 'ls -l'
+                script {
+                    // Define the SSH credentials ID
+                    def sshCredentials = '15.206.145.189'
+
+                    // Define the SSH server information
+                    def remoteServer = [
+                        name: 'ubuntu',
+                        host: '15.206.145.189',
+                        port: 22,
+                        credentialsId: sshCredentials,
+                    ]
+
+                    // Connect to the SSH server
+                    sshagent(credentials: [sshCredentials]) {
+                        sh "ssh ${remoteServer.host} -p ${remoteServer.port} -l ${remoteServer.credentialsId}"
                     }
                 }
             }
