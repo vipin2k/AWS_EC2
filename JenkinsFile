@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Move File') {
+            steps {
+                script {
+                    sh "mv /home/ubuntu/demo.txt /home/ubuntu/ec2/"
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+    
