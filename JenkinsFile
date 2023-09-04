@@ -4,11 +4,9 @@ pipeline {
     stages {
         stage('Connect to SSH Server') {
             steps {
-                node {
                     // Define and use the sshagent step here
                     sshagent(credentials: ['15.206.145.189']) {
                         sh "ssh ubuntu@15.206.145.189 'ls -l'"
-                    }
                 }
             }
         }
