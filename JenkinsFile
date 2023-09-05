@@ -9,19 +9,30 @@ pipeline {
                         name: 'dev',
                         host: '13.233.224.136',
                         port: 22,  // Default SSH port
-                        credentialsId: '13.233.224.136'
+                        credentialsId: '13.233.224.136'  // Update this with your SSH credentials ID
                     ]
-
-                    // Set the correct permissions for the private key file on Windows
+               
                     bat "icacls C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem /inheritance:r /grant:R \"%USERNAME%:R\" /q"
 
-                    // Add the private key to the SSH agent
-                    sshagent(credentials: ['13.233.224.136']) {
-                        // Connect to the EC2 instance
-                        sh """
-                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                        """
-                    }
+
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: remoteServer.name,
+                                transfers: [
+                                    sshTransfer(
+                                        execCommand: """
+                                            sh -c "chmod 600 /home/ubuntu/jenkins-keypair.pem"
+                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
+                                        """
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true
+                            )
+                        ]
+                    )
                 }
             }
         }
