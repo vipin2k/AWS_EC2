@@ -12,24 +12,16 @@ pipeline {
                         credentialsId: '13.233.224.136'
                     ]
 
-                    sshPublisher(
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: remoteServer.name,
-                                transfers: [
-                                    sshTransfer(
-                                        execCommand: """
-                                            sh -c "chmod 600 /home/ubuntu/jenkins-keypair.pem"
-                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                                        """
-                                    )
-                                ],
-                                usePromotionTimestamp: false,
-                                useWorkspaceInPromotion: false,
-                                verbose: true
-                            )
-                        ]
-                    )
+                    // Set the correct permissions for the private key file
+                    sh "chmod 600 /home/ubuntu/jenkins-keypair.pem"
+
+                    // Add the private key to the SSH agent
+                    sshagent(credentials: ['13.233.224.136']) {
+                        // Connect to the EC2 instance
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
+                        """
+                    }
                 }
             }
         }
