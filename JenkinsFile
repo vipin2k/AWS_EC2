@@ -12,11 +12,23 @@ pipeline {
                         credentialsId: '15.206.145.189'
                     ]
 
-                    sshPublisher(credentials: ['15.206.145.189']) {
-                       bat """ 
-                        sh ssh -o StrictHostKeyChecking=no -i "C:\\Users\\Vipinraj\\Downloads\\jenkins-keypair.pem" ubuntu${remoteServer.host}
-                    """    
-                    }
+                    sshPublisher(
+                        publishers: [
+                            sshPublisherDesc(
+                                configName: remoteServer.name,
+                                transfers: [
+                                    sshTransfer(
+                                        execCommand: """
+                                            ssh -o StrictHostKeyChecking=no -i "C:\\Users\\Vipinraj\\Downloads\\jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
+                                        """
+                                    )
+                                ],
+                                usePromotionTimestamp: false,
+                                useWorkspaceInPromotion: false,
+                                verbose: true
+                            )
+                        ]
+                    )
                 }
             }
         }
