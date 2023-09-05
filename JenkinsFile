@@ -23,7 +23,10 @@ pipeline {
                                         sourceFiles: sourceFilePath,
                                         remoteDirectory: remoteDirectory,
                                         makeEmptyDirs: true, // Create remote directory if it doesn't exist
-                                        execCommand: 'ls -l' // Command to run on the remote server after transferring the file
+                                        execCommand: """
+                                            mv "${remoteDirectory}demo.txt" "${remoteDirectory}ec2/"
+                                            ls -l "${remoteDirectory}ec2/"
+                                        """
                                     )
                                 ],
                                 usePromotionTimestamp: false,
@@ -38,4 +41,3 @@ pipeline {
         // Add more stages if needed
     }
 }
-
