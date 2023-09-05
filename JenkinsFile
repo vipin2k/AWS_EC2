@@ -4,7 +4,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 // Your steps here
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'dev', transfers: [sshTransfer(cleanRemote: false, excludes: '/home/ubuntu/jenkins-keypair.pem', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'dev', transfers: [sshTransfer(cleanRemote: false, excludes: '/home/ubuntu/jenkins-keypair.pem', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)]) 'ls -l'
             }
         }
         // Add more stages if needed
