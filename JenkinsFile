@@ -1,40 +1,12 @@
 pipeline {
     agent any
-
     stages {
-        stage('Connect to EC2 via SSH') {
+        stage('Deploy') {
             steps {
-                script {
-                    def remoteServer = [
-                        name: 'dev',
-                        host: '13.233.224.136',
-                        port: 22,  // Default SSH port
-                        credentialsId: '13.233.224.136'  // Update this with your SSH credentials ID
-                    ]
-               
-                    bat "icacls C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem /inheritance:r /grant:R \"%USERNAME%:R\" /q"
-
-
-                    sshPublisher(
-                        publishers: [
-                            sshPublisherDesc(
-                                configName: remoteServer.name,
-                                transfers: [
-                                    sshTransfer(
-                                        execCommand: """
-                                            sh -c "chmod 600 /home/ubuntu/jenkins-keypair.pem"
-                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                                        """
-                                    )
-                                ],
-                                usePromotionTimestamp: false,
-                                useWorkspaceInPromotion: false,
-                                verbose: true
-                            )
-                        ]
-                    )
-                }
+                // Your steps here
+                sshPublisher(publishers: [sshPublisherDesc(configName: 'dev', transfers: [sshTransfer(cleanRemote: false, excludes: '/home/ubuntu/jenkins-keypair.pem', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
             }
         }
+        // Add more stages if needed
     }
 }
