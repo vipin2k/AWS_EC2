@@ -26,6 +26,7 @@ pipeline {
                                         execCommand: """
                                             mv "${remoteDirectory}demo.txt" "${remoteDirectory}ec2/"
                                             ls -l "${remoteDirectory}ec2/"
+                                            cat "${remoteDirectory}ec2/demo.txt"
                                         """
                                     )
                                 ],
