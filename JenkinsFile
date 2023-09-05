@@ -19,7 +19,7 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         execCommand: """
-                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" -v ubuntu@13.233.224.136 'ls -l'
+                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem.pub" -v ubuntu@13.233.224.136 'ls -l'
                                         """
                                     )
                                 ],
