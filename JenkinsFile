@@ -1,14 +1,7 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Connect to EC2 via SSH') {
-            steps {
-                sshagent(credentials : ['15.206.145.189']){
-                sh "ssh command"
-
-              } 
-            }
-        }
-    }
+node(master)
+{
+  stage(Deploy)
+  {
+     sshPublisher(publishers: [sshPublisherDesc(configName: 'ec2-13-233-224-136.ap-south-1.compute.amazonaws.com', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'apt-get update', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '*.war')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+  }
 }
