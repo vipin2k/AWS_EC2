@@ -12,27 +12,15 @@ pipeline {
                         credentialsId: '13.233.224.136'
                     ]
 
-                    // Set the correct permissions for the private key file
-                    // Note: Use 'bat' for Windows and 'sh' for Unix-like systems
-                    if (isUnix()) {
-                        sh "chmod 600 /home/ubuntu/jenkins-keypair.pem"
-                    } else {
-                        bat "chmod 600 /home/ubuntu/jenkins-keypair.pem"
-                    }
+                    // Set the correct permissions for the private key file on Windows
+                    bat "icacls C:\\Users\\Vipinraj\\.jenkins\\workspace\\EC2_main\\jenkins-keypair.pem /inheritance:r /grant:R \"%USERNAME%:R\" /q"
 
                     // Add the private key to the SSH agent
                     sshagent(credentials: ['13.233.224.136']) {
                         // Connect to the EC2 instance
-                        // Note: Use 'bat' for Windows and 'sh' for Unix-like systems
-                        if (isUnix()) {
-                            sh """
-                                ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                            """
-                        } else {
-                            bat """
-                                ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                            """
-                        }
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
+                        """
                     }
                 }
             }
