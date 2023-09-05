@@ -24,9 +24,9 @@ pipeline {
                                         remoteDirectory: remoteDirectory,
                                         makeEmptyDirs: true, // Create remote directory if it doesn't exist
                                         execCommand: """
-                                            mv "${remoteDirectory}demo.txt" "${remoteDirectory}ec2/"
-                                            ls -l "${remoteDirectory}ec2/"
-                                            cat "${remoteDirectory}ec2/demo.txt"
+                                            mv "${remoteDirectory}ec2demo.txt" "${remoteDirectory}EC2/"
+                                            ls -l "${remoteDirectory}EC2/"
+                                            cat "${remoteDirectory}EC2/ec2demo.txt"
                                         """
                                     )
                                 ],
