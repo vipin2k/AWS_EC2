@@ -9,7 +9,7 @@ pipeline {
                         name: 'dev',
                         host: '13.233.224.136',
                         port: 22,  // Default SSH port
-                        credentialsId: '15.206.145.189'
+                        credentialsId: '13.233.224.136'
                     ]
 
                     sshPublisher(
@@ -19,8 +19,8 @@ pipeline {
                                 transfers: [
                                     sshTransfer(
                                         execCommand: """
-                                            // ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
-                                            ssh -i "jenkins-keypair.pem" ubuntu@13.233.224.136
+                                            sh -c "chmod 600 /home/ubuntu/jenkins-keypair.pem"
+                                            ssh -o StrictHostKeyChecking=no -i "/home/ubuntu/jenkins-keypair.pem" ubuntu@${remoteServer.host} 'ls -l'
                                         """
                                     )
                                 ],
