@@ -13,7 +13,9 @@ pipeline {
                     ]
 
                     sshagent(credentials: ['15.206.145.189']) {
-                        sh "ssh -o StrictHostKeyChecking=no -i C:\Users\Vipinraj\Downloads\jenkins-keypair.pem ec2-user@${remoteServer.host}"
+                       bat """ 
+                        sh ssh -o StrictHostKeyChecking=no -i "C:\\Users\\Vipinraj\\Downloads\\jenkins-keypair.pem" ec2-user@${remoteServer.host}
+                    """    
                     }
                 }
             }
