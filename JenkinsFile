@@ -28,7 +28,7 @@ pipeline {
                                 ],
                                 usePromotionTimestamp: false,
                                 useWorkspaceInPromotion: false,
-                                verbose: false
+                                verbose: true
                             )
                         ]
                     )
@@ -38,3 +38,4 @@ pipeline {
         // Add more stages if needed
     }
 }
+
